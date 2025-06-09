@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulateur de Dés</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="header">
+        <h1 class="title">DICE SIMULATOR</h1>
+    </div>
+    
+    <div class="dice-selector">
+        <select id="dice-type">
+            <option value="4">D4</option>
+            <option value="6">D6</option>
+            <option value="8">D8</option>
+            <option value="10">D10</option>
+            <option value="12">D12</option>
+            <option value="20">D20</option>
+        </select>
+    </div>
+
+    <div class="dice-container">
+        <div class="dice" id="dice-face">?</div>
+    </div>
+
+    <div class="result-display" id="result">?</div>
+    <button class="roll-button" id="roll-btn">ROLL</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const rollBtn = document.getElementById('roll-btn');
+            const diceTypeSelect = document.getElementById('dice-type');
+            const diceFace = document.getElementById('dice-face');
+            const resultDisplay = document.getElementById('result');
+            
+            rollBtn.addEventListener('click', rollDice);
+            
+            function rollDice() {
+                const diceType = parseInt(diceTypeSelect.value);
+                if (isNaN(diceType)) return;
+                
+                // Désactiver le bouton pendant l'animation
+                rollBtn.disabled = true;
+                
+                // État de roulement
+                diceFace.textContent = '?';
+                diceFace.classList.add('rolling');
+                resultDisplay.textContent = '?';
+                resultDisplay.classList.remove('result-pop');
+                
+                setTimeout(() => {
+                    const result = Math.floor(Math.random() * diceType) + 1;
+                    
+                    // Fin de l'animation
+                    diceFace.classList.remove('rolling');
+                    diceFace.textContent = result;
+                    resultDisplay.textContent = result;
+                    resultDisplay.classList.add('result-pop');
+                    
+                    // Réactiver le bouton
+                    rollBtn.disabled = false;
+                }, 1200);
+            }
+        });
+    </script>
+</body>
+</html>
